@@ -96,6 +96,7 @@
             border: 3px solid #d4af37;
             border-radius: 12px;
             overflow: hidden;
+            max-width: 1200px;
         }
 
         .campus-map {
@@ -352,41 +353,8 @@
     <div class="container">
         <div class="map-section">
             <div class="map-container" id="mapContainer">
-                <svg viewBox="0 0 1000 1000" class="campus-map">
-                    <!-- Background -->
-                    <rect width="1000" height="1000" fill="#1a1a1a"/>
-                    
-                    <!-- Campus outline -->
-                    <rect x="100" y="100" width="800" height="800" fill="#2a2a2a" stroke="#d4af37" stroke-width="3"/>
-                    
-                    <!-- Buildings (simplified representation) -->
-                    <rect x="200" y="200" width="80" height="60" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="240" y="235" fill="#d4af37" font-size="12" text-anchor="middle">STEW</text>
-                    
-                    <rect x="350" y="200" width="80" height="60" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="390" y="235" fill="#d4af37" font-size="12" text-anchor="middle">HIKS</text>
-                    
-                    <rect x="500" y="200" width="80" height="60" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="540" y="235" fill="#d4af37" font-size="12" text-anchor="middle">MALL</text>
-                    
-                    <rect x="650" y="200" width="80" height="60" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="690" y="235" fill="#d4af37" font-size="12" text-anchor="middle">WALC</text>
-                    
-                    <circle cx="500" cy="500" r="40" fill="#444" stroke="#d4af37" stroke-width="3"/>
-                    <text x="500" y="505" fill="#d4af37" font-size="14" text-anchor="middle">Bell</text>
-                    
-                    <rect x="200" y="700" width="100" height="80" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="250" y="745" fill="#d4af37" font-size="12" text-anchor="middle">PMU</text>
-                    
-                    <rect x="650" y="700" width="80" height="60" fill="#444" stroke="#666" stroke-width="2"/>
-                    <text x="690" y="735" fill="#d4af37" font-size="12" text-anchor="middle">CoRec</text>
-                    
-                    <!-- Tour path line -->
-                    <path d="M 240,230 L 390,230 L 540,230 L 690,230 L 690,500 L 500,500 L 250,745 L 690,730" 
-                          stroke="#d4af37" stroke-width="3" fill="none" stroke-dasharray="10,5" opacity="0.5"/>
-                    
-                    <text x="500" y="950" fill="#d4af37" font-size="20" text-anchor="middle">Purdue University Campus Map</text>
-                </svg>
+                <img src="https://github.com/SamanthaKatovich/purdue-map/blob/main/purduemap.png?raw=true" alt="Purdue Campus Map" class="campus-map" id="campusMapImg">
+                <!-- Hotspots will be added here by JavaScript -->
             </div>
         </div>
 
@@ -416,6 +384,8 @@
                 id: 1,
                 name: "Stewart Center (STEW)",
                 shortName: "STEW",
+                x: 50, // percentage from left
+                y: 48, // percentage from top
                 info: `<h3>Humanities, Social Sciences, and Education Library (HSSE)</h3>
                 <ul>
                     <li>One of 8 libraries across campus</li>
@@ -431,6 +401,401 @@
                     <li>"Spirit of the Land Grant College" mural by Eugene Savage</li>
                 </ul>`
             },
+            {
+                id: 2,
+                name: "John W. Hicks Library (HIKS)",
+                shortName: "HIKS",
+                x: 54,
+                y: 50,
+                info: `<ul>
+                    <li>Entirely underground library</li>
+                    <li>Study spaces and Undergrounds Café</li>
+                    <li>Computer workstations and classrooms</li>
+                    <li>Collaborative study spaces used for Industrial Roundtable interviews</li>
+                    <li>Center for Career Opportunities - Purdue has 340% more on-campus interviews than average</li>
+                </ul>`
+            },
+            {
+                id: 3,
+                name: "Memorial Mall",
+                shortName: "MALL",
+                x: 58,
+                y: 45,
+                info: `<h3>Industrial Roundtable</h3>
+                <ul>
+                    <li>One of nation's largest student-run career fairs</li>
+                    <li>Over 400 companies send representatives</li>
+                </ul>
+                <h3>Events</h3>
+                <ul>
+                    <li>Ag Week - Free grilled cheese, farm animals, company machinery</li>
+                    <li>Hello Walk - Smile and say hello to everyone!</li>
+                    <li>John Purdue burial site - our benefactor and namesake</li>
+                    <li>Free speech demonstrations and speakers</li>
+                </ul>`
+            },
+            {
+                id: 4,
+                name: "Founders Park - Loeb Fountain",
+                shortName: "LOEB",
+                x: 62,
+                y: 42,
+                info: `<ul>
+                    <li>Loeb Fountain regenerates 2,200 gallons per minute</li>
+                    <li>Purdue tradition: "fountain run" through all 4 fountains on campus</li>
+                    <li>"Distance Paths" sculpture by Preston Jackson</li>
+                    <li>College of Liberal Arts - #1 best college for English majors in US</li>
+                    <li>Beering Hall - Most students take COMM 114 here</li>
+                    <li>University Hall - Only remaining building from original six-building campus</li>
+                </ul>`
+            },
+            {
+                id: 5,
+                name: "Class of 1950 Lecture Hall (CL50)",
+                shortName: "CL50",
+                x: 48,
+                y: 65,
+                info: `<h3>Large Classroom Experience</h3>
+                <ul>
+                    <li>470 seats in tiered layout</li>
+                    <li>All lectures recorded and posted on BoilerCast</li>
+                    <li>Professors wear mics and use split screens</li>
+                    <li>Hotseat - created at Purdue for real-time feedback</li>
+                    <li>iClickers for polls and active participation</li>
+                    <li>Typical freshmen take 12-18 credit hours per semester</li>
+                    <li>3-credit class meets 3x/week for 50 min OR 2x/week for 75 min</li>
+                </ul>`
+            },
+            {
+                id: 6,
+                name: "Math Building (MATH)",
+                shortName: "MATH",
+                x: 52,
+                y: 40,
+                info: `<ul>
+                    <li>Part of College of Science (one of seven departments)</li>
+                    <li>International reputation for mathematical education and research</li>
+                    <li>Every professor has regular office hours</li>
+                    <li>Warning: Careful walking under the land bridge on windy days!</li>
+                </ul>`
+            },
+            {
+                id: 7,
+                name: "Elliott Hall of Music (ELLT)",
+                shortName: "ELLT",
+                x: 55,
+                y: 38,
+                info: `<ul>
+                    <li>Seats 6,005 people</li>
+                    <li>Features rock concerts: Pentatonix, Panic! at the Disco, Brad Paisley</li>
+                    <li>Venue for evening exams and commencement</li>
+                    <li>Home to WBAA - Indiana's oldest operating radio station</li>
+                    <li>PMO Christmas Show every year</li>
+                    <li>Bands and Orchestra offices located here</li>
+                </ul>`
+            },
+            {
+                id: 8,
+                name: "Armory (AR)",
+                shortName: "AR",
+                x: 58,
+                y: 36,
+                info: `<ul>
+                    <li>Home to ROTC (Army, Navy, and Air Force)</li>
+                    <li>Hosts robotics competitions</li>
+                    <li>ROTC offers many scholarships</li>
+                    <li>Training facility for military programs</li>
+                </ul>`
+            },
+            {
+                id: 9,
+                name: "Lawson Computer Science (LWSN)",
+                shortName: "LWSN",
+                x: 60,
+                y: 52,
+                info: `<ul>
+                    <li>Top-ranked Computer Science program</li>
+                    <li>Focus on AI, Cybersecurity, and cutting-edge research</li>
+                    <li>Ground floor has 16x9-foot video wall</li>
+                    <li>Deli-style café and espresso bar</li>
+                    <li>Companies interview students in main lobby during Fall</li>
+                    <li>Balcony study space and on-the-go dining</li>
+                </ul>`
+            },
+            {
+                id: 10,
+                name: "Bechtel Innovation Design Center (BIDC)",
+                shortName: "BIDC",
+                x: 35,
+                y: 52,
+                info: `<ul>
+                    <li>Advanced prototyping facility (Makerspace)</li>
+                    <li>CNC tools, waterjet cutter, laser cutter</li>
+                    <li>3D plastic printing, welding, woodworking</li>
+                    <li>Electronics assembly and paint/surfacing</li>
+                    <li>Budget included for students to use facilities</li>
+                    <li>Tours offered Wednesdays and Fridays at 12:30 and 3:30</li>
+                </ul>`
+            },
+            {
+                id: 11,
+                name: "Hagle Hall & World's Largest Drum",
+                shortName: "HAGLE",
+                x: 40,
+                y: 48,
+                info: `<h3>Hagle Hall</h3>
+                <ul>
+                    <li>New home for Purdue Bands & Orchestras (1100+ students)</li>
+                    <li>Funded entirely through alumni donations</li>
+                    <li>3 large rehearsal rooms, 12+ practice rooms</li>
+                    <li>Performance balcony for pep bands</li>
+                </ul>
+                <h3>Big Bass Drum</h3>
+                <ul>
+                    <li>Over 100 years old (debuted 1921)</li>
+                    <li>500 pounds, 10 feet tall</li>
+                    <li>Once stolen and found on Armory roof</li>
+                    <li>Fell off truck, totaled a semi, but rolled away with barely a scratch!</li>
+                    <li>Traveled internationally to Ireland, China, Colombia</li>
+                </ul>`
+            },
+            {
+                id: 12,
+                name: "Cultural Centers",
+                shortName: "BCC/LCC",
+                x: 45,
+                y: 44,
+                info: `<h3>Five Cultural Centers:</h3>
+                <ul>
+                    <li><strong>Black Cultural Center (BCC)</strong> - 18,500 sq ft, traditional African architecture, 7 performing arts ensembles</li>
+                    <li><strong>Latino Cultural Center (LCC)</strong> - ¡Todos Son Bienvenidos! Spanish and Portuguese conversation tables</li>
+                    <li><strong>LGBTQ+ Center</strong> - Safe Zone training, Fabulous Friday events</li>
+                    <li><strong>Native American Educational and Cultural Center (NACC)</strong> - Develops educated Native students</li>
+                    <li><strong>Asian American and Asian Resource and Cultural Center (AACC)</strong> - Youngest center, has Asian/Asian American library</li>
+                </ul>`
+            },
+            {
+                id: 13,
+                name: "Honors College",
+                shortName: "HONORS",
+                x: 68,
+                y: 60,
+                info: `<ul>
+                    <li>Indiana's first academic residential college</li>
+                    <li>Integrates learning facilities with living space</li>
+                    <li>Honors Hall seats over 400 for lectures and events</li>
+                    <li>Four pillars: leadership, research, community & global experiences, interdisciplinary academics</li>
+                    <li>Study rooms, quiet reading nooks, lounges, modern offices, restaurant</li>
+                </ul>`
+            },
+            {
+                id: 14,
+                name: "Parker Halls",
+                shortName: "PARKER",
+                x: 72,
+                y: 58,
+                info: `<ul>
+                    <li>Named after Winifred and Frieda Parker - civil rights pioneers who led effort to integrate student housing</li>
+                    <li>Suite-style living upstairs</li>
+                    <li>Market and Starbucks downstairs</li>
+                    <li>Dining and recreation facilities next door</li>
+                    <li>One of 3 Starbucks on campus</li>
+                </ul>`
+            },
+            {
+                id: 15,
+                name: "Windsor Halls",
+                shortName: "WINDSOR",
+                x: 70,
+                y: 48,
+                info: `<ul>
+                    <li>Oldest all-women's residence hall complex</li>
+                    <li>Five buildings: Wood, Shealy, Vawter, Warren, Duhme</li>
+                    <li>Just under 700 beds</li>
+                    <li>Dining court specializes in vegetarian and vegan options</li>
+                    <li>Buildings connected through underground tunnels</li>
+                    <li>Fun fact: Amelia Earhart lived in Duhme while on faculty!</li>
+                </ul>`
+            },
+            {
+                id: 16,
+                name: "Krach Leadership Center",
+                shortName: "KRCH",
+                x: 75,
+                y: 55,
+                info: `<ul>
+                    <li>81,500 square-foot LEED Gold-certified facility</li>
+                    <li>Interactive and collaborative space for students</li>
+                    <li>Purdue has 1,000+ student organizations</li>
+                    <li>Many meetings and leadership offices here</li>
+                    <li>Conference rooms available for reservations</li>
+                    <li>Amazon Locker location</li>
+                </ul>`
+            },
+            {
+                id: 17,
+                name: "France A. Córdova Recreational Sports Center",
+                shortName: "CoRec",
+                x: 78,
+                y: 62,
+                info: `<ul>
+                    <li>Gymnasiums, aquatics centers, 55-foot climbing wall</li>
+                    <li>Demonstration kitchen, indoor soccer, multiple tracks</li>
+                    <li>34,000 sq ft synthetic turf (TREC)</li>
+                    <li>70+ Group X fitness classes per week</li>
+                    <li>Wellness Suite: financial counseling, massage therapy, mindfulness room, nutrition counseling</li>
+                    <li>$98 million renovation completed in 2012</li>
+                    <li>Membership included in tuition</li>
+                </ul>`
+            },
+            {
+                id: 18,
+                name: "Residence Halls",
+                shortName: "DORMS",
+                x: 65,
+                y: 70,
+                info: `<ul>
+                    <li>17 residence halls and 20 UR Boiler Apartments</li>
+                    <li>Over 90% of freshmen live on campus</li>
+                    <li>Not required, but highly recommended</li>
+                    <li>Wooden furniture included, most rooms not air conditioned</li>
+                    <li>Bedloft available for $125-145</li>
+                    <li>RAs mentor about 40-50 students per floor</li>
+                    <li>Learning Communities available for similar interests</li>
+                </ul>`
+            },
+            {
+                id: 19,
+                name: "Dining Courts",
+                shortName: "DINING",
+                x: 60,
+                y: 75,
+                info: `<h3>Five Dining Courts:</h3>
+                <ul>
+                    <li>Ford and Wiley (stand-alone buildings)</li>
+                    <li>Earhart, Hillenbrand, Windsor (in residence halls)</li>
+                    <li>Meal plans from 7-Track to Unlimited</li>
+                    <li>Dining Dollars included in all meal plans</li>
+                    <li>On-the-Go! locations for quick meals</li>
+                    <li>Each location has different menu - check online!</li>
+                    <li>Questions about allergies: allergicboiler@purdue.edu</li>
+                </ul>`
+            },
+            {
+                id: 20,
+                name: "Slayter Hill",
+                shortName: "SLAYTER",
+                x: 30,
+                y: 35,
+                info: `<ul>
+                    <li>Room for up to 20,000 people</li>
+                    <li>Concerts, sledding, movies, tailgating</li>
+                    <li>Great spot for picnics and hammocking</li>
+                    <li>Disk golf location</li>
+                    <li>David Ross and Mrs. Beering buried here</li>
+                </ul>`
+            },
+            {
+                id: 21,
+                name: "Athletics & Boarding Pass",
+                shortName: "SPORTS",
+                x: 25,
+                y: 30,
+                info: `<ul>
+                    <li>Boarding Pass: $135 for all home football games</li>
+                    <li>Access to men's basketball, women's basketball, volleyball tickets</li>
+                    <li>All other sports FREE with Purdue ID</li>
+                    <li>Student sections available for major sports</li>
+                    <li>Benefits: early entry, free t-shirt, meet teams/coaches</li>
+                </ul>`
+            },
+            {
+                id: 22,
+                name: "Stadium Mall - Engineering",
+                shortName: "ENGR",
+                x: 56,
+                y: 58,
+                info: `<h3>"Cradle of Astronauts"</h3>
+                <ul>
+                    <li>27 Purdue graduates selected for space travel</li>
+                    <li>First (Neil Armstrong) and most recent (Eugene Cernan) to walk on moon</li>
+                    <li>Neil Armstrong statue with moon boot imprints</li>
+                </ul>
+                <h3>Buildings:</h3>
+                <ul>
+                    <li>Armstrong (Aero), Hampton (Civil), Forney (Chemical)</li>
+                    <li>Physics, MSEE (Material/Electrical), EE, MechE</li>
+                    <li>PUSH - Student Health Center</li>
+                    <li>Pharmacy and Nursing buildings</li>
+                </ul>`
+            },
+            {
+                id: 23,
+                name: "Engineering Fountain",
+                shortName: "FOUNTAIN",
+                x: 52,
+                y: 54,
+                info: `<ul>
+                    <li>Gift from class of 1939 for 50th anniversary</li>
+                    <li>Located in front of Hovde Hall (President's Office)</li>
+                    <li>Fun fact: Designed by professor/sculptor from University of Illinois over coffee in the Purdue Union</li>
+                    <li>Popular photo spot</li>
+                </ul>`
+            },
+            {
+                id: 24,
+                name: "Wilmeth Active Learning Center (WALC)",
+                shortName: "WALC",
+                x: 64,
+                y: 54,
+                info: `<ul>
+                    <li>26 active learning classrooms</li>
+                    <li>Library holding 30,000+ print volumes</li>
+                    <li>State-of-the-art tech including 3D printers</li>
+                    <li>Au Bon Pain café and bakery in atrium</li>
+                    <li>Open 24/7 with swipe access</li>
+                    <li>Overlooks Bell Tower</li>
+                    <li>Library of Engineering and Science (6 departments)</li>
+                </ul>`
+            },
+            {
+                id: 25,
+                name: "Bell Tower",
+                shortName: "BELL",
+                x: 62,
+                y: 50,
+                info: `<h3>History - "One Brick Higher"</h3>
+                <ul>
+                    <li>Original tower in Heavilon Hall burned in 1894</li>
+                    <li>President Smart proclaimed: "That tower shall go up one brick higher!"</li>
+                    <li>Rebuilt 9 bricks higher - motto of determination</li>
+                    <li>Current Bell Tower built 1995 with 4 bells from 1895</li>
+                    <li>Chimes every hour, half-hour, and end of classes</li>
+                </ul>
+                <h3>Superstitions:</h3>
+                <ul>
+                    <li>Walk under as undergrad = won't graduate in 4 years!</li>
+                    <li>Kiss your love at midnight = you'll get married!</li>
+                </ul>`
+            },
+            {
+                id: 26,
+                name: "Purdue Memorial Union (PMU)",
+                shortName: "PMU",
+                x: 48,
+                y: 56,
+                info: `<ul>
+                    <li>Opened 1924 honoring Purdue men and women who died in military service</li>
+                    <li>Hub for daily campus life</li>
+                    <li>11 new dining venues on ground floor</li>
+                    <li>4 performance stages and collaboration spaces</li>
+                    <li>Union Rack and Roll - bowling alley and billiards</li>
+                    <li>Union Club Hotel (reopened August 2020)</li>
+                    <li>Ballrooms host career fairs and events</li>
+                    <li>Architecture symbolizes student life: stained glass (diversity), stone arches (strength), upswept windows (youth and spirit)</li>
+                </ul>`
+            }
+        ];
             {
                 id: 2,
                 name: "John W. Hicks Library (HIKS)",
@@ -765,7 +1130,7 @@
                 name: "Purdue Memorial Union (PMU)",
                 shortName: "PMU",
                 info: `<ul>
-                    <li>Opened 1924 honoring Pur<parameter name="content">due men and women who died in military service</li>
+                    <li>Opened 1924 honoring Purdue men and women who died in military service</li>
 <li>Hub for daily campus life</li>
 <li>11 new dining venues on ground floor</li>
 <li>4 performance stages and collaboration spaces</li>
