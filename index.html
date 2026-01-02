@@ -12,1219 +12,602 @@
         }
 
         body {
-            font-family: 'Garamond', 'Times New Roman', serif;
-            background: #000;
-            color: white;
-            overflow-x: hidden;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: #d4af37;
+            min-height: 100vh;
         }
 
-        .header {
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            padding: 2rem;
+        header {
             text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0, 0, 0, 0.5);
             border-bottom: 3px solid #d4af37;
         }
 
-        .header h1 {
+        h1 {
             font-size: 2.5rem;
-            color: #d4af37;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .header p {
-            font-size: 1.2rem;
-            color: #ccc;
+        .subtitle {
+            font-size: 1.1rem;
+            color: #c9a961;
         }
 
-        .progress-bar {
-            background: #1a1a1a;
-            padding: 1.5rem;
-            text-align: center;
-            border-bottom: 2px solid #d4af37;
-        }
-
-        .progress-info {
+        .stats-bar {
             display: flex;
             justify-content: center;
             gap: 3rem;
-            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid #d4af37;
         }
 
-        .progress-stat {
-            font-size: 1.1rem;
+        .stat {
+            font-size: 1.2rem;
         }
 
-        .progress-stat span {
+        .stat-value {
             color: #d4af37;
             font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .progress-track {
-            width: 80%;
-            max-width: 600px;
-            height: 20px;
-            background: #333;
-            border-radius: 10px;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
-            width: 0%;
-            transition: width 0.5s ease;
+            font-size: 1.4rem;
         }
 
         .container {
             display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
             gap: 2rem;
+            padding: 2rem;
+            max-width: 1800px;
+            margin: 0 auto;
         }
 
         .map-section {
             flex: 2;
-            position: relative;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+            border: 3px solid #d4af37;
         }
 
         .map-container {
             position: relative;
-            background: #1a1a1a;
-            border: 3px solid #d4af37;
-            border-radius: 12px;
-            overflow: hidden;
-            max-width: 1200px;
-        }
-
-        .campus-map {
             width: 100%;
-            height: auto;
-            display: block;
+            height: 600px;
+            overflow: hidden;
         }
 
-        .hotspot {
+        #campus-map {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            cursor: move;
+        }
+
+        .marker {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #d4af37;
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, #FFD700 0%, #d4af37 50%, #B8860B 100%);
             border: 3px solid #000;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6),
+                        0 0 20px rgba(212, 175, 55, 0.4),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+            z-index: 10;
+        }
+
+        .marker:hover {
+            transform: translate(-50%, -50%) scale(1.3);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.9),
+                        0 0 30px rgba(212, 175, 55, 0.6),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.7);
+            animation: pulse 1s infinite;
+        }
+
+        .marker.visited {
+            background: radial-gradient(circle, #90EE90 0%, #32CD32 50%, #228B22 100%);
+            box-shadow: 0 0 10px rgba(50, 205, 50, 0.6),
+                        0 0 20px rgba(50, 205, 50, 0.4);
+        }
+
+        .marker.visited:hover {
+            box-shadow: 0 0 20px rgba(50, 205, 50, 0.9),
+                        0 0 30px rgba(50, 205, 50, 0.6);
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(212, 175, 55, 0.9),
+                            0 0 30px rgba(212, 175, 55, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(212, 175, 55, 1),
+                            0 0 40px rgba(212, 175, 55, 0.8);
+            }
         }
 
-        .hotspot:hover {
-            background: #f4d03f;
-            transform: scale(1.3);
-            animation: none;
-        }
-
-        .hotspot.visited {
-            background: #2ecc71;
-            animation: none;
-        }
-
-        .hotspot-label {
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #d4af37;
-            color: #000;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-
-        .hotspot:hover .hotspot-label {
-            opacity: 1;
-        }
-
-        .sidebar {
+        .info-section {
             flex: 1;
-            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tour-stops {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 1.5rem;
+            max-height: 600px;
             overflow-y: auto;
         }
 
-        .tour-list {
-            background: #1a1a1a;
-            border: 2px solid #d4af37;
-            border-radius: 12px;
-            padding: 1.5rem;
-        }
-
-        .tour-list h2 {
-            color: #d4af37;
+        .tour-stops h2 {
             margin-bottom: 1rem;
-            font-size: 1.5rem;
             text-align: center;
+            font-size: 1.8rem;
+            color: #d4af37;
         }
 
-        .tour-item {
-            background: #2a2a2a;
+        .stop-item {
+            background: rgba(255, 255, 255, 0.05);
             padding: 1rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.8rem;
             border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
             border-left: 4px solid #d4af37;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .tour-item:hover {
-            background: #333;
+        .stop-item:hover {
+            background: rgba(212, 175, 55, 0.2);
             transform: translateX(5px);
         }
 
-        .tour-item.visited {
-            border-left-color: #2ecc71;
-            opacity: 0.7;
+        .stop-item.visited {
+            border-left-color: #32CD32;
+            background: rgba(50, 205, 50, 0.1);
         }
 
-        .tour-item-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .tour-number {
-            background: #d4af37;
-            color: #000;
+        .stop-number {
+            display: inline-block;
             width: 30px;
             height: 30px;
+            background: #d4af37;
+            color: #000;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            line-height: 30px;
             font-weight: bold;
-            flex-shrink: 0;
+            margin-right: 0.5rem;
         }
 
-        .tour-item.visited .tour-number {
-            background: #2ecc71;
+        .stop-item.visited .stop-number {
+            background: #32CD32;
         }
 
-        .tour-name {
+        .stop-name {
+            font-weight: bold;
             font-size: 1.1rem;
-            font-weight: 600;
         }
 
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background: #1a1a1a;
-            border: 3px solid #d4af37;
-            border-radius: 12px;
-            max-width: 800px;
-            margin: 2rem auto;
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+            margin: 5% auto;
             padding: 2rem;
-            position: relative;
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.5);
+            color: #d4af37;
         }
 
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 2rem;
+        .close {
             color: #d4af37;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
             cursor: pointer;
-            background: none;
-            border: none;
-            padding: 0.5rem;
+            transition: color 0.3s;
         }
 
-        .modal-close:hover {
-            color: #f4d03f;
+        .close:hover {
+            color: #FFD700;
         }
 
-        .modal-header {
-            color: #d4af37;
-            font-size: 2rem;
+        .modal h2 {
+            margin-top: 0;
             margin-bottom: 1rem;
-            padding-right: 3rem;
+            color: #FFD700;
         }
 
-        .modal-info {
-            color: #ccc;
-            line-height: 1.8;
-            font-size: 1.1rem;
+        .modal p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
         }
 
-        .modal-info ul {
-            margin-left: 2rem;
+        .mark-visited-btn {
+            background: #d4af37;
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
             margin-top: 1rem;
         }
 
-        .modal-info li {
-            margin-bottom: 0.5rem;
+        .mark-visited-btn:hover {
+            background: #FFD700;
+            transform: scale(1.05);
         }
 
-        .modal-footer {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 2px solid #d4af37;
-            display: flex;
-            gap: 1rem;
+        .mark-visited-btn.visited {
+            background: #32CD32;
         }
 
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: all 0.3s;
-            font-family: 'Garamond', serif;
-        }
-
-        .btn-primary {
-            background: #d4af37;
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            background: #f4d03f;
-        }
-
-        .btn-secondary {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background: #27ae60;
-        }
-
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .container {
                 flex-direction: column;
-            }
-
-            .sidebar {
-                max-height: none;
             }
         }
     </style>
 </head>
 <body>
-    <div class="header">
+    <header>
         <h1>🎓 Interactive Purdue Campus Tour</h1>
-        <p>Click on the gold markers to explore each stop</p>
-    </div>
+        <p class="subtitle">Click on the gold markers to explore each stop</p>
+    </header>
 
-    <div class="progress-bar">
-        <div class="progress-info">
-            <div class="progress-stat">
-                Stops Visited: <span id="visitedCount">0</span> / <span>26</span>
-            </div>
-            <div class="progress-stat">
-                Progress: <span id="progressPercent">0%</span>
-            </div>
+    <div class="stats-bar">
+        <div class="stat">
+            Stops Visited: <span class="stat-value" id="visited-count">0</span> / <span class="stat-value">26</span>
         </div>
-        <div class="progress-track">
-            <div class="progress-fill" id="progressFill"></div>
+        <div class="stat">
+            Progress: <span class="stat-value" id="progress">0%</span>
         </div>
     </div>
 
     <div class="container">
         <div class="map-section">
-            <div class="map-container" id="mapContainer">
-                <img src="https://raw.githubusercontent.com/samanthakatovich/purdue-map/main/purduemap.png" alt="Purdue Campus Map" class="campus-map" id="campusMapImg">
-                <!-- Hotspots will be added here by JavaScript -->
+            <div class="map-container">
+                <img id="campus-map" src="https://raw.githubusercontent.com/samanthakatovich/purdue-map/main/purduemap.png" alt="Purdue Campus Map">
             </div>
         </div>
 
-        <div class="sidebar">
-            <div class="tour-list">
+        <div class="info-section">
+            <div class="tour-stops">
                 <h2>Tour Stops</h2>
-                <div id="tourStops"></div>
+                <div id="stops-list"></div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="stopModal">
+    <div id="modal" class="modal">
         <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">&times;</button>
-            <h2 class="modal-header" id="modalTitle"></h2>
-            <div class="modal-info" id="modalInfo"></div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="markVisited()">✓ Mark as Visited</button>
-                <button class="btn btn-primary" onclick="closeModal()">Close</button>
-            </div>
+            <span class="close">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <button class="mark-visited-btn" id="mark-visited">Mark as Visited</button>
         </div>
     </div>
 
     <script>
-        const tourStops = [
+        const stops = [
             {
                 id: 1,
-                name: "Stewart Center (STEW)",
-                shortName: "STEW",
-                x: 50, // percentage from left
-                y: 48, // percentage from top
-                info: `<h3>Humanities, Social Sciences, and Education Library (HSSE)</h3>
-                <ul>
-                    <li>One of 8 libraries across campus</li>
-                    <li>Check out books for entire semester</li>
-                    <li>41 computer labs on campus with Macs and PCs</li>
-                    <li>$40 printing quota per year</li>
-                    <li>Wi-Fi everywhere - classrooms, gym, residence halls</li>
-                </ul>
-                <h3>Notable Features:</h3>
-                <ul>
-                    <li>Fowler Hall - Free Flicks and student events</li>
-                    <li>Loeb Playhouse - Convocations and lectures</li>
-                    <li>"Spirit of the Land Grant College" mural by Eugene Savage</li>
-                </ul>`
+                name: "Purdue Memorial Union",
+                x: 45,
+                y: 55,
+                description: "The heart of campus life, featuring dining, shopping, and the iconic bowling alley. A hub for student activities and events."
             },
             {
                 id: 2,
-                name: "John W. Hicks Library (HIKS)",
-                shortName: "HIKS",
-                x: 54,
+                name: "Bell Tower",
+                x: 50,
                 y: 50,
-                info: `<ul>
-                    <li>Entirely underground library</li>
-                    <li>Study spaces and Undergrounds Café</li>
-                    <li>Computer workstations and classrooms</li>
-                    <li>Collaborative study spaces used for Industrial Roundtable interviews</li>
-                    <li>Center for Career Opportunities - Purdue has 340% more on-campus interviews than average</li>
-                </ul>`
+                description: "An iconic 160-foot campanile that serves as a campus landmark. Its carillon plays daily concerts and the tower lights up in gold for special occasions."
             },
             {
                 id: 3,
-                name: "Memorial Mall",
-                shortName: "MALL",
-                x: 58,
-                y: 45,
-                info: `<h3>Industrial Roundtable</h3>
-                <ul>
-                    <li>One of nation's largest student-run career fairs</li>
-                    <li>Over 400 companies send representatives</li>
-                </ul>
-                <h3>Events</h3>
-                <ul>
-                    <li>Ag Week - Free grilled cheese, farm animals, company machinery</li>
-                    <li>Hello Walk - Smile and say hello to everyone!</li>
-                    <li>John Purdue burial site - our benefactor and namesake</li>
-                    <li>Free speech demonstrations and speakers</li>
-                </ul>`
+                name: "Hovde Hall",
+                x: 52,
+                y: 52,
+                description: "The administrative center of Purdue University, home to the Office of the President. Its distinctive colonnade is a favorite photo spot."
             },
             {
                 id: 4,
-                name: "Founders Park - Loeb Fountain",
-                shortName: "LOEB",
-                x: 62,
-                y: 42,
-                info: `<ul>
-                    <li>Loeb Fountain regenerates 2,200 gallons per minute</li>
-                    <li>Purdue tradition: "fountain run" through all 4 fountains on campus</li>
-                    <li>"Distance Paths" sculpture by Preston Jackson</li>
-                    <li>College of Liberal Arts - #1 best college for English majors in US</li>
-                    <li>Beering Hall - Most students take COMM 114 here</li>
-                    <li>University Hall - Only remaining building from original six-building campus</li>
-                </ul>`
+                name: "Neil Armstrong Hall of Engineering",
+                x: 60,
+                y: 45,
+                description: "State-of-the-art engineering facility named after Purdue's most famous alumnus, the first person to walk on the moon."
             },
             {
                 id: 5,
-                name: "Class of 1950 Lecture Hall (CL50)",
-                shortName: "CL50",
-                x: 48,
-                y: 65,
-                info: `<h3>Large Classroom Experience</h3>
-                <ul>
-                    <li>470 seats in tiered layout</li>
-                    <li>All lectures recorded and posted on BoilerCast</li>
-                    <li>Professors wear mics and use split screens</li>
-                    <li>Hotseat - created at Purdue for real-time feedback</li>
-                    <li>iClickers for polls and active participation</li>
-                    <li>Typical freshmen take 12-18 credit hours per semester</li>
-                    <li>3-credit class meets 3x/week for 50 min OR 2x/week for 75 min</li>
-                </ul>`
+                name: "Mackey Arena",
+                x: 25,
+                y: 35,
+                description: "Home to Purdue Basketball. Known for its incredible atmosphere, hosting Boilermaker basketball games and special events."
             },
             {
                 id: 6,
-                name: "Math Building (MATH)",
-                shortName: "MATH",
-                x: 52,
-                y: 40,
-                info: `<ul>
-                    <li>Part of College of Science (one of seven departments)</li>
-                    <li>International reputation for mathematical education and research</li>
-                    <li>Every professor has regular office hours</li>
-                    <li>Warning: Careful walking under the land bridge on windy days!</li>
-                </ul>`
+                name: "Ross-Ade Stadium",
+                x: 20,
+                y: 45,
+                description: "Purdue's football stadium, seating over 57,000 fans. Experience Boilermaker football and the excitement of Big Ten athletics."
             },
             {
                 id: 7,
-                name: "Elliott Hall of Music (ELLT)",
-                shortName: "ELLT",
-                x: 55,
-                y: 38,
-                info: `<ul>
-                    <li>Seats 6,005 people</li>
-                    <li>Features rock concerts: Pentatonix, Panic! at the Disco, Brad Paisley</li>
-                    <li>Venue for evening exams and commencement</li>
-                    <li>Home to WBAA - Indiana's oldest operating radio station</li>
-                    <li>PMO Christmas Show every year</li>
-                    <li>Bands and Orchestra offices located here</li>
-                </ul>`
+                name: "Purdue University Airport",
+                x: 15,
+                y: 25,
+                description: "One of the first university-owned airports in the nation, supporting aviation technology and research programs."
             },
             {
                 id: 8,
-                name: "Armory (AR)",
-                shortName: "AR",
-                x: 58,
-                y: 36,
-                info: `<ul>
-                    <li>Home to ROTC (Army, Navy, and Air Force)</li>
-                    <li>Hosts robotics competitions</li>
-                    <li>ROTC offers many scholarships</li>
-                    <li>Training facility for military programs</li>
-                </ul>`
+                name: "Armory Building",
+                x: 55,
+                y: 60,
+                description: "Historic building that now houses the School of Engineering Education and various student services."
             },
             {
                 id: 9,
-                name: "Lawson Computer Science (LWSN)",
-                shortName: "LWSN",
-                x: 60,
-                y: 52,
-                info: `<ul>
-                    <li>Top-ranked Computer Science program</li>
-                    <li>Focus on AI, Cybersecurity, and cutting-edge research</li>
-                    <li>Ground floor has 16x9-foot video wall</li>
-                    <li>Deli-style café and espresso bar</li>
-                    <li>Companies interview students in main lobby during Fall</li>
-                    <li>Balcony study space and on-the-go dining</li>
-                </ul>`
+                name: "Krannert Building",
+                x: 58,
+                y: 55,
+                description: "Home to the Krannert School of Management, one of the top-ranked business schools in the nation."
             },
             {
                 id: 10,
-                name: "Bechtel Innovation Design Center (BIDC)",
-                shortName: "BIDC",
-                x: 35,
-                y: 52,
-                info: `<ul>
-                    <li>Advanced prototyping facility (Makerspace)</li>
-                    <li>CNC tools, waterjet cutter, laser cutter</li>
-                    <li>3D plastic printing, welding, woodworking</li>
-                    <li>Electronics assembly and paint/surfacing</li>
-                    <li>Budget included for students to use facilities</li>
-                    <li>Tours offered Wednesdays and Fridays at 12:30 and 3:30</li>
-                </ul>`
+                name: "Hicks Undergraduate Library",
+                x: 48,
+                y: 58,
+                description: "A modern study space featuring collaborative learning areas, technology resources, and quiet study zones for undergraduates."
             },
             {
                 id: 11,
-                name: "Hagle Hall & World's Largest Drum",
-                shortName: "HAGLE",
-                x: 40,
-                y: 48,
-                info: `<h3>Hagle Hall</h3>
-                <ul>
-                    <li>New home for Purdue Bands & Orchestras (1100+ students)</li>
-                    <li>Funded entirely through alumni donations</li>
-                    <li>3 large rehearsal rooms, 12+ practice rooms</li>
-                    <li>Performance balcony for pep bands</li>
-                </ul>
-                <h3>Big Bass Drum</h3>
-                <ul>
-                    <li>Over 100 years old (debuted 1921)</li>
-                    <li>500 pounds, 10 feet tall</li>
-                    <li>Once stolen and found on Armory roof</li>
-                    <li>Fell off truck, totaled a semi, but rolled away with barely a scratch!</li>
-                    <li>Traveled internationally to Ireland, China, Colombia</li>
-                </ul>`
+                name: "Stewart Center",
+                x: 47,
+                y: 53,
+                description: "Features the Loeb Playhouse for performing arts, meeting rooms, and various student organization offices."
             },
             {
                 id: 12,
-                name: "Cultural Centers",
-                shortName: "BCC/LCC",
-                x: 45,
-                y: 44,
-                info: `<h3>Five Cultural Centers:</h3>
-                <ul>
-                    <li><strong>Black Cultural Center (BCC)</strong> - 18,500 sq ft, traditional African architecture, 7 performing arts ensembles</li>
-                    <li><strong>Latino Cultural Center (LCC)</strong> - ¡Todos Son Bienvenidos! Spanish and Portuguese conversation tables</li>
-                    <li><strong>LGBTQ+ Center</strong> - Safe Zone training, Fabulous Friday events</li>
-                    <li><strong>Native American Educational and Cultural Center (NACC)</strong> - Develops educated Native students</li>
-                    <li><strong>Asian American and Asian Resource and Cultural Center (AACC)</strong> - Youngest center, has Asian/Asian American library</li>
-                </ul>`
+                name: "Hall of Music",
+                x: 43,
+                y: 48,
+                description: "One of the world's largest proscenium theaters, hosting concerts, convocations, and performances year-round."
             },
             {
                 id: 13,
-                name: "Honors College",
-                shortName: "HONORS",
-                x: 68,
-                y: 60,
-                info: `<ul>
-                    <li>Indiana's first academic residential college</li>
-                    <li>Integrates learning facilities with living space</li>
-                    <li>Honors Hall seats over 400 for lectures and events</li>
-                    <li>Four pillars: leadership, research, community & global experiences, interdisciplinary academics</li>
-                    <li>Study rooms, quiet reading nooks, lounges, modern offices, restaurant</li>
-                </ul>`
+                name: "Class of 1950 Lecture Hall",
+                x: 54,
+                y: 48,
+                description: "Modern lecture facility equipped with advanced technology, serving thousands of students in large-enrollment courses."
             },
             {
                 id: 14,
-                name: "Parker Halls",
-                shortName: "PARKER",
-                x: 72,
-                y: 58,
-                info: `<ul>
-                    <li>Named after Winifred and Frieda Parker - civil rights pioneers who led effort to integrate student housing</li>
-                    <li>Suite-style living upstairs</li>
-                    <li>Market and Starbucks downstairs</li>
-                    <li>Dining and recreation facilities next door</li>
-                    <li>One of 3 Starbucks on campus</li>
-                </ul>`
+                name: "Lawson Computer Science Building",
+                x: 62,
+                y: 50,
+                description: "Hub for computer science education and research, featuring cutting-edge labs and collaborative spaces."
             },
             {
                 id: 15,
-                name: "Windsor Halls",
-                shortName: "WINDSOR",
-                x: 70,
-                y: 48,
-                info: `<ul>
-                    <li>Oldest all-women's residence hall complex</li>
-                    <li>Five buildings: Wood, Shealy, Vawter, Warren, Duhme</li>
-                    <li>Just under 700 beds</li>
-                    <li>Dining court specializes in vegetarian and vegan options</li>
-                    <li>Buildings connected through underground tunnels</li>
-                    <li>Fun fact: Amelia Earhart lived in Duhme while on faculty!</li>
-                </ul>`
+                name: "Beering Hall of Liberal Arts",
+                x: 56,
+                y: 62,
+                description: "Home to the College of Liberal Arts, fostering critical thinking, creativity, and cultural understanding."
             },
             {
                 id: 16,
-                name: "Krach Leadership Center",
-                shortName: "KRCH",
-                x: 75,
-                y: 55,
-                info: `<ul>
-                    <li>81,500 square-foot LEED Gold-certified facility</li>
-                    <li>Interactive and collaborative space for students</li>
-                    <li>Purdue has 1,000+ student organizations</li>
-                    <li>Many meetings and leadership offices here</li>
-                    <li>Conference rooms available for reservations</li>
-                    <li>Amazon Locker location</li>
-                </ul>`
+                name: "Recreational Sports Center",
+                x: 35,
+                y: 48,
+                description: "Massive fitness facility with pools, courts, climbing walls, and fitness equipment serving the campus community."
             },
             {
                 id: 17,
-                name: "France A. Córdova Recreational Sports Center",
-                shortName: "CoRec",
-                x: 78,
-                y: 62,
-                info: `<ul>
-                    <li>Gymnasiums, aquatics centers, 55-foot climbing wall</li>
-                    <li>Demonstration kitchen, indoor soccer, multiple tracks</li>
-                    <li>34,000 sq ft synthetic turf (TREC)</li>
-                    <li>70+ Group X fitness classes per week</li>
-                    <li>Wellness Suite: financial counseling, massage therapy, mindfulness room, nutrition counseling</li>
-                    <li>$98 million renovation completed in 2012</li>
-                    <li>Membership included in tuition</li>
-                </ul>`
+                name: "Honors College & Residences",
+                x: 40,
+                y: 42,
+                description: "Living-learning community for high-achieving students, fostering academic excellence and intellectual engagement."
             },
             {
                 id: 18,
-                name: "Residence Halls",
-                shortName: "DORMS",
+                name: "Pharmacy Building",
                 x: 65,
-                y: 70,
-                info: `<ul>
-                    <li>17 residence halls and 20 UR Boiler Apartments</li>
-                    <li>Over 90% of freshmen live on campus</li>
-                    <li>Not required, but highly recommended</li>
-                    <li>Wooden furniture included, most rooms not air conditioned</li>
-                    <li>Bedloft available for $125-145</li>
-                    <li>RAs mentor about 40-50 students per floor</li>
-                    <li>Learning Communities available for similar interests</li>
-                </ul>`
+                y: 55,
+                description: "Cutting-edge facility for pharmaceutical sciences education and research, training future healthcare professionals."
             },
             {
                 id: 19,
-                name: "Dining Courts",
-                shortName: "DINING",
-                x: 60,
-                y: 75,
-                info: `<h3>Five Dining Courts:</h3>
-                <ul>
-                    <li>Ford and Wiley (stand-alone buildings)</li>
-                    <li>Earhart, Hillenbrand, Windsor (in residence halls)</li>
-                    <li>Meal plans from 7-Track to Unlimited</li>
-                    <li>Dining Dollars included in all meal plans</li>
-                    <li>On-the-Go! locations for quick meals</li>
-                    <li>Each location has different menu - check online!</li>
-                    <li>Questions about allergies: allergicboiler@purdue.edu</li>
-                </ul>`
+                name: "Veterinary Medicine Complex",
+                x: 75,
+                y: 60,
+                description: "Comprehensive veterinary teaching hospital and research facility, providing care for animals and training for veterinarians."
             },
             {
                 id: 20,
-                name: "Slayter Hill",
-                shortName: "SLAYTER",
-                x: 30,
-                y: 35,
-                info: `<ul>
-                    <li>Room for up to 20,000 people</li>
-                    <li>Concerts, sledding, movies, tailgating</li>
-                    <li>Great spot for picnics and hammocking</li>
-                    <li>Disk golf location</li>
-                    <li>David Ross and Mrs. Beering buried here</li>
-                </ul>`
+                name: "Birck Nanotechnology Center",
+                x: 70,
+                y: 45,
+                description: "World-class research facility for nanotechnology, pushing the boundaries of science at the molecular level."
             },
             {
                 id: 21,
-                name: "Athletics & Boarding Pass",
-                shortName: "SPORTS",
-                x: 25,
-                y: 30,
-                info: `<ul>
-                    <li>Boarding Pass: $135 for all home football games</li>
-                    <li>Access to men's basketball, women's basketball, volleyball tickets</li>
-                    <li>All other sports FREE with Purdue ID</li>
-                    <li>Student sections available for major sports</li>
-                    <li>Benefits: early entry, free t-shirt, meet teams/coaches</li>
-                </ul>`
+                name: "Fountain of Engineering",
+                x: 58,
+                y: 48,
+                description: "Iconic water feature celebrating engineering innovation, a popular gathering spot and campus landmark."
             },
             {
                 id: 22,
-                name: "Stadium Mall - Engineering",
-                shortName: "ENGR",
-                x: 56,
-                y: 58,
-                info: `<h3>"Cradle of Astronauts"</h3>
-                <ul>
-                    <li>27 Purdue graduates selected for space travel</li>
-                    <li>First (Neil Armstrong) and most recent (Eugene Cernan) to walk on moon</li>
-                    <li>Neil Armstrong statue with moon boot imprints</li>
-                </ul>
-                <h3>Buildings:</h3>
-                <ul>
-                    <li>Armstrong (Aero), Hampton (Civil), Forney (Chemical)</li>
-                    <li>Physics, MSEE (Material/Electrical), EE, MechE</li>
-                    <li>PUSH - Student Health Center</li>
-                    <li>Pharmacy and Nursing buildings</li>
-                </ul>`
+                name: "Purdue Research Park",
+                x: 80,
+                y: 35,
+                description: "Innovation hub connecting university research with industry, fostering entrepreneurship and technology development."
             },
             {
                 id: 23,
-                name: "Engineering Fountain",
-                shortName: "FOUNTAIN",
-                x: 52,
-                y: 54,
-                info: `<ul>
-                    <li>Gift from class of 1939 for 50th anniversary</li>
-                    <li>Located in front of Hovde Hall (President's Office)</li>
-                    <li>Fun fact: Designed by professor/sculptor from University of Illinois over coffee in the Purdue Union</li>
-                    <li>Popular photo spot</li>
-                </ul>`
+                name: "Gateway Complex",
+                x: 38,
+                y: 38,
+                description: "Modern residence halls providing comfortable living and learning environments for first-year students."
             },
             {
                 id: 24,
-                name: "Wilmeth Active Learning Center (WALC)",
-                shortName: "WALC",
-                x: 64,
-                y: 54,
-                info: `<ul>
-                    <li>26 active learning classrooms</li>
-                    <li>Library holding 30,000+ print volumes</li>
-                    <li>State-of-the-art tech including 3D printers</li>
-                    <li>Au Bon Pain café and bakery in atrium</li>
-                    <li>Open 24/7 with swipe access</li>
-                    <li>Overlooks Bell Tower</li>
-                    <li>Library of Engineering and Science (6 departments)</li>
-                </ul>`
+                name: "First Street Towers",
+                x: 42,
+                y: 65,
+                description: "Apartment-style housing for upperclass students, offering independence and community near campus amenities."
             },
             {
                 id: 25,
-                name: "Bell Tower",
-                shortName: "BELL",
-                x: 62,
-                y: 50,
-                info: `<h3>History - "One Brick Higher"</h3>
-                <ul>
-                    <li>Original tower in Heavilon Hall burned in 1894</li>
-                    <li>President Smart proclaimed: "That tower shall go up one brick higher!"</li>
-                    <li>Rebuilt 9 bricks higher - motto of determination</li>
-                    <li>Current Bell Tower built 1995 with 4 bells from 1895</li>
-                    <li>Chimes every hour, half-hour, and end of classes</li>
-                </ul>
-                <h3>Superstitions:</h3>
-                <ul>
-                    <li>Walk under as undergrad = won't graduate in 4 years!</li>
-                    <li>Kiss your love at midnight = you'll get married!</li>
-                </ul>`
+                name: "Wilmeth Active Learning Center",
+                x: 53,
+                y: 44,
+                description: "Innovative classroom building designed for collaborative, hands-on learning across multiple disciplines."
             },
             {
                 id: 26,
-                name: "Purdue Memorial Union (PMU)",
-                shortName: "PMU",
-                x: 48,
-                y: 56,
-                info: `<ul>
-                    <li>Opened 1924 honoring Purdue men and women who died in military service</li>
-                    <li>Hub for daily campus life</li>
-                    <li>11 new dining venues on ground floor</li>
-                    <li>4 performance stages and collaboration spaces</li>
-                    <li>Union Rack and Roll - bowling alley and billiards</li>
-                    <li>Union Club Hotel (reopened August 2020)</li>
-                    <li>Ballrooms host career fairs and events</li>
-                    <li>Architecture symbolizes student life: stained glass (diversity), stone arches (strength), upswept windows (youth and spirit)</li>
-                </ul>`
+                name: "University Hall",
+                x: 50,
+                y: 65,
+                description: "Historic building housing academic departments, classrooms, and faculty offices in the heart of campus."
             }
         ];
-            {
-                id: 2,
-                name: "John W. Hicks Library (HIKS)",
-                shortName: "HIKS",
-                info: `<ul>
-                    <li>Entirely underground library</li>
-                    <li>Study spaces and Undergrounds Café</li>
-                    <li>Computer workstations and classrooms</li>
-                    <li>Collaborative study spaces used for Industrial Roundtable interviews</li>
-                    <li>Center for Career Opportunities - Purdue has 340% more on-campus interviews than average</li>
-                </ul>`
-            },
-            {
-                id: 3,
-                name: "Memorial Mall",
-                shortName: "MALL",
-                info: `<h3>Industrial Roundtable</h3>
-                <ul>
-                    <li>One of nation's largest student-run career fairs</li>
-                    <li>Over 400 companies send representatives</li>
-                </ul>
-                <h3>Events</h3>
-                <ul>
-                    <li>Ag Week - Free grilled cheese, farm animals, company machinery</li>
-                    <li>Hello Walk - Smile and say hello to everyone!</li>
-                    <li>John Purdue burial site - our benefactor and namesake</li>
-                    <li>Free speech demonstrations and speakers</li>
-                </ul>`
-            },
-            {
-                id: 4,
-                name: "Founders Park - Loeb Fountain",
-                shortName: "LOEB",
-                info: `<ul>
-                    <li>Loeb Fountain regenerates 2,200 gallons per minute</li>
-                    <li>Purdue tradition: "fountain run" through all 4 fountains on campus</li>
-                    <li>"Distance Paths" sculpture by Preston Jackson</li>
-                    <li>College of Liberal Arts - #1 best college for English majors in US</li>
-                    <li>Beering Hall - Most students take COMM 114 here</li>
-                    <li>University Hall - Only remaining building from original six-building campus</li>
-                </ul>`
-            },
-            {
-                id: 5,
-                name: "Class of 1950 Lecture Hall (CL50)",
-                shortName: "CL50",
-                info: `<h3>Large Classroom Experience</h3>
-                <ul>
-                    <li>470 seats in tiered layout</li>
-                    <li>All lectures recorded and posted on BoilerCast</li>
-                    <li>Professors wear mics and use split screens</li>
-                    <li>Hotseat - created at Purdue for real-time feedback</li>
-                    <li>iClickers for polls and active participation</li>
-                    <li>Typical freshmen take 12-18 credit hours per semester</li>
-                    <li>3-credit class meets 3x/week for 50 min OR 2x/week for 75 min</li>
-                </ul>`
-            },
-            {
-                id: 6,
-                name: "Math Building (MATH)",
-                shortName: "MATH",
-                info: `<ul>
-                    <li>Part of College of Science (one of seven departments)</li>
-                    <li>International reputation for mathematical education and research</li>
-                    <li>Every professor has regular office hours</li>
-                    <li>Warning: Careful walking under the land bridge on windy days!</li>
-                </ul>`
-            },
-            {
-                id: 7,
-                name: "Elliott Hall of Music (ELLT)",
-                shortName: "ELLT",
-                info: `<ul>
-                    <li>Seats 6,005 people</li>
-                    <li>Features rock concerts: Pentatonix, Panic! at the Disco, Brad Paisley</li>
-                    <li>Venue for evening exams and commencement</li>
-                    <li>Home to WBAA - Indiana's oldest operating radio station</li>
-                    <li>PMO Christmas Show every year</li>
-                    <li>Bands and Orchestra offices located here</li>
-                </ul>`
-            },
-            {
-                id: 8,
-                name: "Armory (AR)",
-                shortName: "AR",
-                info: `<ul>
-                    <li>Home to ROTC (Army, Navy, and Air Force)</li>
-                    <li>Hosts robotics competitions</li>
-                    <li>ROTC offers many scholarships</li>
-                    <li>Training facility for military programs</li>
-                </ul>`
-            },
-            {
-                id: 9,
-                name: "Lawson Computer Science (LWSN)",
-                shortName: "LWSN",
-                info: `<ul>
-                    <li>Top-ranked Computer Science program</li>
-                    <li>Focus on AI, Cybersecurity, and cutting-edge research</li>
-                    <li>Ground floor has 16x9-foot video wall</li>
-                    <li>Deli-style café and espresso bar</li>
-                    <li>Companies interview students in main lobby during Fall</li>
-                    <li>Balcony study space and on-the-go dining</li>
-                </ul>`
-            },
-            {
-                id: 10,
-                name: "Bechtel Innovation Design Center (BIDC)",
-                shortName: "BIDC",
-                info: `<ul>
-                    <li>Advanced prototyping facility (Makerspace)</li>
-                    <li>CNC tools, waterjet cutter, laser cutter</li>
-                    <li>3D plastic printing, welding, woodworking</li>
-                    <li>Electronics assembly and paint/surfacing</li>
-                    <li>Budget included for students to use facilities</li>
-                    <li>Tours offered Wednesdays and Fridays at 12:30 and 3:30</li>
-                </ul>`
-            },
-            {
-                id: 11,
-                name: "Hagle Hall & World's Largest Drum",
-                shortName: "HAGLE",
-                info: `<h3>Hagle Hall</h3>
-                <ul>
-                    <li>New home for Purdue Bands & Orchestras (1100+ students)</li>
-                    <li>Funded entirely through alumni donations</li>
-                    <li>3 large rehearsal rooms, 12+ practice rooms</li>
-                    <li>Performance balcony for pep bands</li>
-                </ul>
-                <h3>Big Bass Drum</h3>
-                <ul>
-                    <li>Over 100 years old (debuted 1921)</li>
-                    <li>500 pounds, 10 feet tall</li>
-                    <li>Once stolen and found on Armory roof</li>
-                    <li>Fell off truck, totaled a semi, but rolled away with barely a scratch!</li>
-                    <li>Traveled internationally to Ireland, China, Colombia</li>
-                </ul>`
-            },
-            {
-                id: 12,
-                name: "Cultural Centers",
-                shortName: "BCC/LCC",
-                info: `<h3>Five Cultural Centers:</h3>
-                <ul>
-                    <li><strong>Black Cultural Center (BCC)</strong> - 18,500 sq ft, traditional African architecture, 7 performing arts ensembles</li>
-                    <li><strong>Latino Cultural Center (LCC)</strong> - ¡Todos Son Bienvenidos! Spanish and Portuguese conversation tables</li>
-                    <li><strong>LGBTQ+ Center</strong> - Safe Zone training, Fabulous Friday events</li>
-                    <li><strong>Native American Educational and Cultural Center (NACC)</strong> - Develops educated Native students</li>
-                    <li><strong>Asian American and Asian Resource and Cultural Center (AACC)</strong> - Youngest center, has Asian/Asian American library</li>
-                </ul>`
-            },
-            {
-                id: 13,
-                name: "Honors College",
-                shortName: "HONORS",
-                info: `<ul>
-                    <li>Indiana's first academic residential college</li>
-                    <li>Integrates learning facilities with living space</li>
-                    <li>Honors Hall seats over 400 for lectures and events</li>
-                    <li>Four pillars: leadership, research, community & global experiences, interdisciplinary academics</li>
-                    <li>Study rooms, quiet reading nooks, lounges, modern offices, restaurant</li>
-                </ul>`
-            },
-            {
-                id: 14,
-                name: "Parker Halls",
-                shortName: "PARKER",
-                info: `<ul>
-                    <li>Named after Winifred and Frieda Parker - civil rights pioneers who led effort to integrate student housing</li>
-                    <li>Suite-style living upstairs</li>
-                    <li>Market and Starbucks downstairs</li>
-                    <li>Dining and recreation facilities next door</li>
-                    <li>One of 3 Starbucks on campus</li>
-                </ul>`
-            },
-            {
-                id: 15,
-                name: "Windsor Halls",
-                shortName: "WINDSOR",
-                info: `<ul>
-                    <li>Oldest all-women's residence hall complex</li>
-                    <li>Five buildings: Wood, Shealy, Vawter, Warren, Duhme</li>
-                    <li>Just under 700 beds</li>
-                    <li>Dining court specializes in vegetarian and vegan options</li>
-                    <li>Buildings connected through underground tunnels</li>
-                    <li>Fun fact: Amelia Earhart lived in Duhme while on faculty!</li>
-                </ul>`
-            },
-            {
-                id: 16,
-                name: "Krach Leadership Center",
-                shortName: "KRCH",
-                info: `<ul>
-                    <li>81,500 square-foot LEED Gold-certified facility</li>
-                    <li>Interactive and collaborative space for students</li>
-                    <li>Purdue has 1,000+ student organizations</li>
-                    <li>Many meetings and leadership offices here</li>
-                    <li>Conference rooms available for reservations</li>
-                    <li>Amazon Locker location</li>
-                </ul>`
-            },
-            {
-                id: 17,
-                name: "France A. Córdova Recreational Sports Center",
-                shortName: "CoRec",
-                info: `<ul>
-                    <li>Gymnasiums, aquatics centers, 55-foot climbing wall</li>
-                    <li>Demonstration kitchen, indoor soccer, multiple tracks</li>
-                    <li>34,000 sq ft synthetic turf (TREC)</li>
-                    <li>70+ Group X fitness classes per week</li>
-                    <li>Wellness Suite: financial counseling, massage therapy, mindfulness room, nutrition counseling</li>
-                    <li>$98 million renovation completed in 2012</li>
-                    <li>Membership included in tuition</li>
-                </ul>`
-            },
-            {
-                id: 18,
-                name: "Residence Halls",
-                shortName: "DORMS",
-                info: `<ul>
-                    <li>17 residence halls and 20 UR Boiler Apartments</li>
-                    <li>Over 90% of freshmen live on campus</li>
-                    <li>Not required, but highly recommended</li>
-                    <li>Wooden furniture included, most rooms not air conditioned</li>
-                    <li>Bedloft available for $125-145</li>
-                    <li>RAs mentor about 40-50 students per floor</li>
-                    <li>Learning Communities available for similar interests</li>
-                </ul>`
-            },
-            {
-                id: 19,
-                name: "Dining Courts",
-                shortName: "DINING",
-                info: `<h3>Five Dining Courts:</h3>
-                <ul>
-                    <li>Ford and Wiley (stand-alone buildings)</li>
-                    <li>Earhart, Hillenbrand, Windsor (in residence halls)</li>
-                    <li>Meal plans from 7-Track to Unlimited</li>
-                    <li>Dining Dollars included in all meal plans</li>
-                    <li>On-the-Go! locations for quick meals</li>
-                    <li>Each location has different menu - check online!</li>
-                    <li>Questions about allergies: allergicboiler@purdue.edu</li>
-                </ul>`
-            },
-            {
-                id: 20,
-                name: "Slayter Hill",
-                shortName: "SLAYTER",
-                info: `<ul>
-                    <li>Room for up to 20,000 people</li>
-                    <li>Concerts, sledding, movies, tailgating</li>
-                    <li>Great spot for picnics and hammocking</li>
-                    <li>Disk golf location</li>
-                    <li>David Ross and Mrs. Beering buried here</li>
-                </ul>`
-            },
-            {
-                id: 21,
-                name: "Athletics & Boarding Pass",
-                shortName: "SPORTS",
-                info: `<ul>
-                    <li>Boarding Pass: $135 for all home football games</li>
-                    <li>Access to men's basketball, women's basketball, volleyball tickets</li>
-                    <li>All other sports FREE with Purdue ID</li>
-                    <li>Student sections available for major sports</li>
-                    <li>Benefits: early entry, free t-shirt, meet teams/coaches</li>
-                </ul>`
-            },
-            {
-                id: 22,
-                name: "Stadium Mall - Engineering",
-                shortName: "ENGR",
-                info: `<h3>"Cradle of Astronauts"</h3>
-                <ul>
-                    <li>27 Purdue graduates selected for space travel</li>
-                    <li>First (Neil Armstrong) and most recent (Eugene Cernan) to walk on moon</li>
-                    <li>Neil Armstrong statue with moon boot imprints</li>
-                </ul>
-                <h3>Buildings:</h3>
-                <ul>
-                    <li>Armstrong (Aero), Hampton (Civil), Forney (Chemical)</li>
-                    <li>Physics, MSEE (Material/Electrical), EE, MechE</li>
-                    <li>PUSH - Student Health Center</li>
-                    <li>Pharmacy and Nursing buildings</li>
-                </ul>`
-            },
-            {
-                id: 23,
-                name: "Engineering Fountain",
-                shortName: "FOUNTAIN",
-                info: `<ul>
-                    <li>Gift from class of 1939 for 50th anniversary</li>
-                    <li>Located in front of Hovde Hall (President's Office)</li>
-                    <li>Fun fact: Designed by professor/sculptor from University of Illinois over coffee in the Purdue Union</li>
-                    <li>Popular photo spot</li>
-                </ul>`
-            },
-            {
-                id: 24,
-                name: "Wilmeth Active Learning Center (WALC)",
-                shortName: "WALC",
-                info: `<ul>
-                    <li>26 active learning classrooms</li>
-                    <li>Library holding 30,000+ print volumes</li>
-                    <li>State-of-the-art tech including 3D printers</li>
-                    <li>Au Bon Pain café and bakery in atrium</li>
-                    <li>Open 24/7 with swipe access</li>
-                    <li>Overlooks Bell Tower</li>
-                    <li>Library of Engineering and Science (6 departments)</li>
-                </ul>`
-            },
-            {
-                id: 25,
-                name: "Bell Tower",
-                shortName: "BELL",
-                info: `<h3>History - "One Brick Higher"</h3>
-                <ul>
-                    <li>Original tower in Heavilon Hall burned in 1894</li>
-                    <li>President Smart proclaimed: "That tower shall go up one brick higher!"</li>
-                    <li>Rebuilt 9 bricks higher - motto of determination</li>
-                    <li>Current Bell Tower built 1995 with 4 bells from 1895</li>
-                    <li>Chimes every hour, half-hour, and end of classes</li>
-                </ul>
-                <h3>Superstitions:</h3>
-                <ul>
-                    <li>Walk under as undergrad = won't graduate in 4 years!</li>
-                    <li>Kiss your love at midnight = you'll get married!</li>
-                </ul>`
-            },
-            {
-                id: 26,
-                name: "Purdue Memorial Union (PMU)",
-                shortName: "PMU",
-                info: `<ul>
-                    <li>Opened 1924 honoring Purdue men and women who died in military service</li>
-<li>Hub for daily campus life</li>
-<li>11 new dining venues on ground floor</li>
-<li>4 performance stages and collaboration spaces</li>
-<li>Union Rack and Roll - bowling alley and billiards</li>
-<li>Union Club Hotel (reopened August 2020)</li>
-<li>Ballrooms host career fairs and events</li>
-<li>Architecture symbolizes student life: stained glass (diversity), stone arches (strength), upswept windows (youth and spirit)</li>
-</ul>`
-}
-];
-    let visitedStops = new Set();
 
-    function init() {
-        loadProgress();
-        renderTourList();
-        updateProgress();
-    }
+        let visitedStops = new Set();
+        let currentStop = null;
 
-    function renderTourList() {
-        const container = document.getElementById('tourStops');
-        container.innerHTML = '';
-        
-        tourStops.forEach(stop => {
-            const div = document.createElement('div');
-            div.className = `tour-item ${visitedStops.has(stop.id) ? 'visited' : ''}`;
-            div.onclick = () => openModal(stop.id);
-            div.innerHTML = `
-                <div class="tour-item-header">
-                    <div class="tour-number">${stop.id}</div>
-                    <div class="tour-name">${stop.name}</div>
-                </div>
-            `;
-            container.appendChild(div);
+        function initializeMap() {
+            const mapContainer = document.querySelector('.map-container');
+            const mapImg = document.getElementById('campus-map');
+
+            stops.forEach(stop => {
+                const marker = document.createElement('div');
+                marker.className = 'marker';
+                marker.dataset.stopId = stop.id;
+                marker.style.left = `${stop.x}%`;
+                marker.style.top = `${stop.y}%`;
+                marker.addEventListener('click', () => openModal(stop));
+                mapContainer.appendChild(marker);
+            });
+        }
+
+        function renderStopsList() {
+            const stopsList = document.getElementById('stops-list');
+            stopsList.innerHTML = '';
+
+            stops.forEach(stop => {
+                const stopItem = document.createElement('div');
+                stopItem.className = `stop-item ${visitedStops.has(stop.id) ? 'visited' : ''}`;
+                stopItem.innerHTML = `
+                    <span class="stop-number">${stop.id}</span>
+                    <span class="stop-name">${stop.name}</span>
+                `;
+                stopItem.addEventListener('click', () => openModal(stop));
+                stopsList.appendChild(stopItem);
+            });
+        }
+
+        function openModal(stop) {
+            currentStop = stop;
+            document.getElementById('modal-title').textContent = stop.name;
+            document.getElementById('modal-description').textContent = stop.description;
+            
+            const markButton = document.getElementById('mark-visited');
+            if (visitedStops.has(stop.id)) {
+                markButton.textContent = 'Visited ✓';
+                markButton.classList.add('visited');
+            } else {
+                markButton.textContent = 'Mark as Visited';
+                markButton.classList.remove('visited');
+            }
+
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            currentStop = null;
+        }
+
+        function toggleVisited() {
+            if (!currentStop) return;
+
+            if (visitedStops.has(currentStop.id)) {
+                visitedStops.delete(currentStop.id);
+            } else {
+                visitedStops.add(currentStop.id);
+            }
+
+            updateUI();
+            renderStopsList();
+            
+            // Update the modal button
+            const markButton = document.getElementById('mark-visited');
+            if (visitedStops.has(currentStop.id)) {
+                markButton.textContent = 'Visited ✓';
+                markButton.classList.add('visited');
+            } else {
+                markButton.textContent = 'Mark as Visited';
+                markButton.classList.remove('visited');
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('visited-count').textContent = visitedStops.size;
+            const progress = Math.round((visitedStops.size / stops.length) * 100);
+            document.getElementById('progress').textContent = `${progress}%`;
+
+            // Update markers
+            document.querySelectorAll('.marker').forEach(marker => {
+                const stopId = parseInt(marker.dataset.stopId);
+                if (visitedStops.has(stopId)) {
+                    marker.classList.add('visited');
+                } else {
+                    marker.classList.remove('visited');
+                }
+            });
+        }
+
+        // Event Listeners
+        document.querySelector('.close').addEventListener('click', closeModal);
+        document.getElementById('mark-visited').addEventListener('click', toggleVisited);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
         });
-    }
 
-    let currentStopId = null;
-
-    function openModal(stopId) {
-        currentStopId = stopId;
-        const stop = tourStops.find(s => s.id === stopId);
-        if (!stop) return;
-
-        document.getElementById('modalTitle').textContent = stop.name;
-        document.getElementById('modalInfo').innerHTML = stop.info;
-        document.getElementById('stopModal').style.display = 'block';
-    }
-
-    function closeModal() {
-        document.getElementById('stopModal').style.display = 'none';
-        currentStopId = null;
-    }
-
-    function markVisited() {
-        if (currentStopId) {
-            visitedStops.add(currentStopId);
-            saveProgress();
-            renderTourList();
-            updateProgress();
-            closeModal();
-        }
-    }
-
-    function updateProgress() {
-        const total = tourStops.length;
-        const visited = visitedStops.size;
-        const percent = Math.round((visited / total) * 100);
-
-        document.getElementById('visitedCount').textContent = visited;
-        document.getElementById('progressPercent').textContent = percent + '%';
-        document.getElementById('progressFill').style.width = percent + '%';
-    }
-
-    function saveProgress() {
-        localStorage.setItem('tourProgress', JSON.stringify([...visitedStops]));
-    }
-
-    function loadProgress() {
-        const saved = localStorage.getItem('tourProgress');
-        if (saved) {
-            visitedStops = new Set(JSON.parse(saved));
-        }
-    }
-
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const modal = document.getElementById('stopModal');
-        if (event.target === modal) {
-            closeModal();
-        }
-    }
-
-    // Initialize
-    init();
-</script>
+        // Initialize
+        initializeMap();
+        renderStopsList();
+        updateUI();
+    </script>
 </body>
-</html></parameter>
+</html>
